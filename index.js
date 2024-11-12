@@ -8,18 +8,24 @@ const names = [];
 
 buttonSubmit.addEventListener("click", function (event) {
   event.preventDefault();
+  //SELEZIONO IN CONTENUTO DEL CAMPO DELL'INPUT
   const inputText = document.getElementById("textContent").value;
 
+  //CONTROLLO CHE IL CAMPO DELL'INPUT NON SIA VUOTO
   if (inputText !== "") {
-    //PRENDO IL TESTO CONTENUTO NELL'INPUT
-    //INSERISCO I VALORI INSERITI NEGLI INPUT NELL'ARRAY NAMES
+    //INSERISCO IL TESTO INSERITO NELL'INPUT NELL'ARRAY NAMES
     names.push(inputText);
 
+    //CONVERTO L'ARRAY NAMES IN STRINGA JSON PRIMA DI SALVARLO IN LOCAL STORAGE
     localStorage.setItem("allInputText", JSON.stringify(names));
 
+    //PRENDO LA STRINGA CHE è STATA SALVATA
     const arrNamesFromStorage = localStorage.getItem("allInputText");
+
+    //CONVERTO LA STRINGA SALVATA PRECEEDNTEMENTE IN UN ARRAY
     const allInputTextArr = JSON.parse(arrNamesFromStorage);
 
+    //L'ELEMENTO AGIGUNTO ALL'ARRAY SARà IL TESTO DELLA LABEL
     allInputTextArr.forEach((element) => {
       labelText.textContent = element;
     });
