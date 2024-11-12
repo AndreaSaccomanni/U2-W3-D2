@@ -4,28 +4,52 @@ const buttonSubmit = document.getElementById("submit");
 const buttonClear = document.getElementById("clear");
 const labelText = document.getElementById("label");
 
-const names = [];
+let names = [];
+
+// Carica i dati dal localStorage se presenti
+window.onload = function () {
+  // Recupera i dati dal localStorage
+  const savedNames = localStorage.getItem("allInputText");
+  if (savedNames) {
+    // Se ci sono dati salvati, li converto in array
+    const names = JSON.parse(savedNames);
+
+    // Aggiorna la label con l'ultimo nome o "Nome:" se vuoto
+    const labelText = document.getElementById("label");
+    labelText.textContent = names[names.length - 1] || "Nome:";
+
+    // Carica gli elementi salvati nella lista
+    const ul = document.getElementById("textSaved");
+    names.forEach((name) => {
+      const li = document.createElement("li");
+      li.textContent = name;
+      li.className = "list-group-item";
+      ul.appendChild(li);
+    });
+  }
+};
 
 buttonSubmit.addEventListener("click", function (event) {
   event.preventDefault();
-  //SELEZIONO IN CONTENUTO DEL CAMPO DELL'INPUT
+  // Seleziono il contenuto del campo dell'input
   const inputText = document.getElementById("textContent").value;
 
-  //CONTROLLO CHE IL CAMPO DELL'INPUT NON SIA VUOTO
+  // Controllo che il campo dell'input non sia vuoto
   if (inputText !== "") {
-    //INSERISCO IL TESTO INSERITO NELL'INPUT NELL'ARRAY NAMES
+    // Inserisco il testo nell'array names
     names.push(inputText);
 
-    //CONVERTO L'ARRAY NAMES IN STRINGA JSON PRIMA DI SALVARLO IN LOCAL STORAGE
+    // Converto l'array names in stringa JSON poi lo salvo in localStorage
     localStorage.setItem("allInputText", JSON.stringify(names));
 
-    //L'ELEMENTO AGIGUNTO ALL'ARRAY SARà IL TESTO DELLA LABEL
+    // L'elemento aggiunto all'array sarà il testo della label
     labelText.textContent = names[names.length - 1];
 
+    // Aggiungi l'elemento alla lista
     const ul = document.getElementById("textSaved");
-
     const li = document.createElement("li");
     li.textContent = inputText;
+    li.className = "list-group-item";
     ul.appendChild(li);
 
     form.reset();
@@ -40,15 +64,21 @@ buttonClear.addEventListener("click", function (event) {
   if (names.length > 0) {
     // Rimuove l'ultimo elemento dell'array
     names.pop();
-    labelText.textContent = names[names.length - 1];
 
+    // Aggiorna la label con l'ultimo nome o "Nome:" se l'array è vuoto
+    labelText.textContent = names.length > 0 ? names[names.length - 1] : "Nome:";
+
+    // Rimuove l'ultimo elemento dalla lista, se esiste
     const ul = document.getElementById("textSaved");
     const lastLi = ul.lastElementChild;
-    ul.removeChild(lastLi);
+    if (lastLi) {
+      ul.removeChild(lastLi);
+    }
 
     // Aggiorna il localStorage
     localStorage.setItem("allInputText", JSON.stringify(names));
-  } else if (names.length <= 0) {
+  } else {
+    // Se l'array è vuoto, resetta la label
     labelText.textContent = "Nome:";
   }
 
