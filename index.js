@@ -84,3 +84,20 @@ buttonClear.addEventListener("click", function (event) {
 
   form.reset();
 });
+
+const timer = document.getElementById("timer");
+
+// Recupera il valore del timer dal localStorage o inizializza a 0 se non esiste
+let i = parseInt(localStorage.getItem("timerValue")) || 0;
+
+// Imposta il valore iniziale del timer
+timer.textContent = i;
+
+// Funzione per aggiornare il timer ogni secondo
+setInterval(() => {
+  i++;
+  timer.textContent = i; // Aggiorna il contenuto del timer sulla pagina
+
+  // Salva il valore aggiornato nel localStorage
+  localStorage.setItem("timerValue", i);
+}, 1000);
