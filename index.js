@@ -19,16 +19,14 @@ buttonSubmit.addEventListener("click", function (event) {
     //CONVERTO L'ARRAY NAMES IN STRINGA JSON PRIMA DI SALVARLO IN LOCAL STORAGE
     localStorage.setItem("allInputText", JSON.stringify(names));
 
-    //PRENDO LA STRINGA CHE è STATA SALVATA
-    const arrNamesFromStorage = localStorage.getItem("allInputText");
-
-    //CONVERTO LA STRINGA SALVATA PRECEEDNTEMENTE IN UN ARRAY
-    const allInputTextArr = JSON.parse(arrNamesFromStorage);
-
     //L'ELEMENTO AGIGUNTO ALL'ARRAY SARà IL TESTO DELLA LABEL
-    allInputTextArr.forEach((element) => {
-      labelText.textContent = element;
-    });
+    labelText.textContent = names[names.length - 1];
+
+    const ul = document.getElementById("textSaved");
+
+    const li = document.createElement("li");
+    li.textContent = inputText;
+    ul.appendChild(li);
 
     form.reset();
   } else {
@@ -43,6 +41,11 @@ buttonClear.addEventListener("click", function (event) {
     // Rimuove l'ultimo elemento dell'array
     names.pop();
     labelText.textContent = names[names.length - 1];
+
+    const ul = document.getElementById("textSaved");
+    const lastLi = ul.lastElementChild;
+    ul.removeChild(lastLi);
+
     // Aggiorna il localStorage
     localStorage.setItem("allInputText", JSON.stringify(names));
   } else if (names.length <= 0) {
