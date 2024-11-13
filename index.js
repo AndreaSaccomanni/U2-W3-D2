@@ -101,3 +101,9 @@ setInterval(() => {
   // Salva il valore aggiornato nel localStorage
   localStorage.setItem("timerValue", i);
 }, 1000);
+
+const resetTimer = document.getElementById("resetTimer");
+resetTimer.addEventListener("click", function () {
+  i = 0;
+  localStorage.setItem("timerValue", 0);
+});
